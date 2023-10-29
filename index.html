@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator - Developed By Md. Fahad Monshi</title>
+    <style>
+        #dob {
+            padding: 10px 20px;
+            border: 1px solid orangered;
+            color: blue;
+        }
+
+        .age {
+            color: orangered;
+        }
+
+        .footer {
+            margin-top: 400px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Age Calculator</h1>
+    <hr>
+    <p>Enter your Date of Birth
+        <input type="text" name="dob" id="dob" placeholder="dd/mm/yyyy">
+    </p>
+    <hr>
+    <h2 class="age">
+
+    </h2>
+    <div class="footer">
+        <p>Designed and Developed by <a href="https://www.linkedin.com/in/fahad4bd/" target="_blank">Md. Fahad
+                Monshi</a></p>
+    </div>
+
+    <script>
+        const dob = document.querySelector('#dob');
+        dob.addEventListener('keyup', () => {
+            document.querySelector('.age').innerText = ''
+            if (dob.value.length == 10) {
+                if (dob.value.includes('/')) {
+                    const dobArr = dob.value.split('/');
+                    const date = new Date();
+                    const currentYear = date.getFullYear();
+                    const currentMonth = date.getMonth() + 1;
+                    const currentDate = date.getDate();
+
+                    const ageText = document.querySelector('.age').innerText = `${String(currentYear - parseInt(dobArr[2])).padStart(2, '0')} Years ${String(currentMonth - parseInt(dobArr[1])).padStart(2, '0')} Months & ${String(currentDate - parseInt(dobArr[0])).padStart(2, '0')} days (Till-${currentDate}/${currentMonth}/${currentYear})`
+                } else if (dob.value.includes('-')) {
+                    const dobArr = dob.value.split('-');
+                    const date = new Date();
+                    const currentYear = date.getFullYear();
+                    const currentMonth = date.getMonth() + 1;
+                    const currentDate = date.getDate();
+
+                    const ageText = document.querySelector('.age').innerText = `${String(currentYear - parseInt(dobArr[2])).padStart(2, '0')} Years ${String(currentMonth - parseInt(dobArr[1])).padStart(2, '0')} Months & ${String(currentDate - parseInt(dobArr[0])).padStart(2, '0')} days (Till-${currentDate}/${currentMonth}/${currentYear})`
+                } else if (dob.value.includes('.')) {
+                    const dobArr = dob.value.split('.');
+                    const date = new Date();
+                    const currentYear = date.getFullYear();
+                    const currentMonth = date.getMonth() + 1;
+                    const currentDate = date.getDate();
+
+                    const ageText = document.querySelector('.age').innerText = `${String(currentYear - parseInt(dobArr[2])).padStart(2, '0')} Years ${String(currentMonth - parseInt(dobArr[1])).padStart(2, '0')} Months & ${String(currentDate - parseInt(dobArr[0])).padStart(2, '0')} days (Till-${currentDate}/${currentMonth}/${currentYear})`
+                } else {
+                    alert('Invalid Format, please try again with right format')
+                }
+            } else if (dob.value.length > 10) {
+                alert('Date is incorrect')
+                dob.value = ''
+            }
+        })
+    </script>
+</body>
+
+</html>
