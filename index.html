@@ -40,40 +40,59 @@
     </div>
 
     <script>
-        const dob = document.querySelector('#dob');
-        dob.addEventListener('keyup', () => {
-            document.querySelector('.age').innerText = ''
-            if (dob.value.length == 10) {
-                if (dob.value.includes('/')) {
-                    const dobArr = dob.value.split('/');
-                    const date = new Date();
-                    const currentYear = date.getFullYear();
-                    const currentMonth = date.getMonth() + 1;
-                    const currentDate = date.getDate();
+        const dateOfBirth = document.querySelector('#dob');
 
-                    const ageText = document.querySelector('.age').innerText = `${String(currentYear - parseInt(dobArr[2])).padStart(2, '0')} Years ${String(currentMonth - parseInt(dobArr[1])).padStart(2, '0')} Months & ${String(currentDate - parseInt(dobArr[0])).padStart(2, '0')} days (Till-${currentDate}/${currentMonth}/${currentYear})`
-                } else if (dob.value.includes('-')) {
-                    const dobArr = dob.value.split('-');
-                    const date = new Date();
-                    const currentYear = date.getFullYear();
-                    const currentMonth = date.getMonth() + 1;
-                    const currentDate = date.getDate();
+        function calculateAge(dateOfBirth) {
+            // Split the input date into day, month, and year
+            const dateParts = dateOfBirth.split(/[-./]/);
 
-                    const ageText = document.querySelector('.age').innerText = `${String(currentYear - parseInt(dobArr[2])).padStart(2, '0')} Years ${String(currentMonth - parseInt(dobArr[1])).padStart(2, '0')} Months & ${String(currentDate - parseInt(dobArr[0])).padStart(2, '0')} days (Till-${currentDate}/${currentMonth}/${currentYear})`
-                } else if (dob.value.includes('.')) {
-                    const dobArr = dob.value.split('.');
-                    const date = new Date();
-                    const currentYear = date.getFullYear();
-                    const currentMonth = date.getMonth() + 1;
-                    const currentDate = date.getDate();
+            if (dateParts.length !== 3) {
+                return "Invalid date format";
+            }
 
-                    const ageText = document.querySelector('.age').innerText = `${String(currentYear - parseInt(dobArr[2])).padStart(2, '0')} Years ${String(currentMonth - parseInt(dobArr[1])).padStart(2, '0')} Months & ${String(currentDate - parseInt(dobArr[0])).padStart(2, '0')} days (Till-${currentDate}/${currentMonth}/${currentYear})`
-                } else {
-                    alert('Invalid Format, please try again with right format')
-                }
-            } else if (dob.value.length > 10) {
-                alert('Date is incorrect')
-                dob.value = ''
+            // Extract day, month, and year components
+            const [day, month, year] = dateParts.map(part => parseInt(part, 10));
+
+            // Validate the date
+            if (isNaN(day) || isNaN(month) || isNaN(year)) {
+                return "Invalid date";
+            }
+
+            // Get the current date
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = currentDate.getMonth() + 1; // Months are zero-indexed
+            const currentDay = currentDate.getDate();
+
+            // Calculate age components
+            let years = currentYear - year;
+            let months = currentMonth - month;
+            let days = currentDay - day;
+
+            // Adjust age components
+            if (days < 0) {
+                months--;
+                days += new Date(currentYear, currentMonth, 0).getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Format the age string
+            const ageString = `${years.toString().padStart(2, '0')} Years ${months.toString().padStart(2, '0')} Months and ${days.toString().padStart(2, '0')} Days`;
+
+            return ageString;
+        }
+
+
+        dateOfBirth.addEventListener('keyup', () => {
+            document.querySelector('.age').innerText = '';
+            if (dateOfBirth.value.length == 10) {
+                document.querySelector('.age').innerText = calculateAge(dateOfBirth.value)
+            } else if (dateOfBirth.value.length > 10) {
+                document.querySelector('.age').value = '';
+                alert('Invalid Value');
             }
         })
     </script>
