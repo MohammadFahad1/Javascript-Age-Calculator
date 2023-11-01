@@ -86,13 +86,23 @@
         }
 
 
-        dateOfBirth.addEventListener('keyup', () => {
+        dateOfBirth.addEventListener('keyup', (e) => {
             document.querySelector('.age').innerText = '';
             if (dateOfBirth.value.length == 10) {
                 document.querySelector('.age').innerText = calculateAge(dateOfBirth.value)
             } else if (dateOfBirth.value.length > 10) {
                 document.querySelector('.age').value = '';
                 alert('Invalid Value');
+            }
+            
+            if(e.key != "Backspace"){
+                if(dob.value.length == 2){
+                dob.value = dob.value + "-"; 
+                }else if(dob.value.length === 5){
+                    dob.value = dob.value + "-"
+                }else if(dob.value.length > 10){
+                    dob.value = dob.value.slice(0,10);
+                }
             }
         })
     </script>
